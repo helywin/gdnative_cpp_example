@@ -1,0 +1,6 @@
+.sconsign.dblite
+cmake-build-*/
+*.import
+*.so
+*.a
+.idea/
