@@ -1,13 +1,67 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://bin/gdexample.gdns" type="Script" id=2]
 [ext_resource path="res://main.gd" type="Script" id=3]
 
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+vec3 hsv_to_rgb(float h, int s, int v)
+{
+	vec3 rgb;
+    float C = 0.0f;
+	float X = 0.0f;
+	float Y = 0.0f;
+	float Z = 0.0f;
+    int i=0;
+    float H=h;
+    float S=float(s)/100.0;
+    float V=float(v)/100.0;
+    if(S < 0.00001) {
+        rgb.r = V;
+		rgb.g = V;
+		rgb.b = V;
+	}
+    else
+    {
+        H = H/60.0f;
+		i = int(H);
+        C = H - float(i);
+ 
+        X = V * (1.0f - S);
+        Y = V * (1.0f - S*C);
+        Z = V * (1.0f - S*(1.0f-C));
+        switch(i){
+            case 0 : rgb.r = V; rgb.g = Z; rgb.b = X; break;
+            case 1 : rgb.r = Y; rgb.g = V; rgb.b = X; break;
+            case 2 : rgb.r = X; rgb.g = V; rgb.b = Z; break;
+            case 3 : rgb.r = X; rgb.g = Y; rgb.b = V; break;
+            case 4 : rgb.r = Z; rgb.g = X; rgb.b = V; break;
+            case 5 : rgb.r = V; rgb.g = X; rgb.b = Y; break;
+        }
+    }
+	return rgb;
+}
+
+void fragment () {
+	COLOR = texture(TEXTURE, UV);
+	float time = TIME * 40.0f;
+	time = mod(time, 360.0f);
+	vec3 rgb = hsv_to_rgb(time, 100, 100);
+	COLOR.r *= rgb.r;
+	COLOR.g *= rgb.g;
+	COLOR.b *= rgb.b;
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+
 [node name="Main" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 2 )
 texture = ExtResource( 1 )
 centered = false
 script = ExtResource( 2 )
