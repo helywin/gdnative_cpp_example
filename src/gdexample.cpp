@@ -37,7 +37,7 @@ void GDExample::_process(float delta)
 
     set_position(new_position);
     time_emit += delta;
-    if (time_emit > 1.0) {
+    if (time_emit > 0.1) {
         emit_signal("position_changed", this, new_position);
 
         time_emit = 0.0;

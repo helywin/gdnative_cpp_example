@@ -17,3 +17,12 @@ func _ready():
 
 func _on_Sprite_position_changed(node, new_pos):
 	print("The position of " + node.name + " is now " + str(new_pos))
+	var speed = get_node("Sprite").speed
+	print("speed" + str(speed))
+	get_node("ui/pos").text = "位置: " + str(new_pos)
+	
+
+
+func _on_speed_value_changed(value):
+	get_node("Sprite").speed = value
+	pass # Replace with function body.
