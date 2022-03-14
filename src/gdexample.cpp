@@ -8,7 +8,7 @@ void GDExample::_register_methods()
     register_property<GDExample, float>("amplitude", &GDExample::amplitude, 10.0);
     register_property<GDExample, float>("speed", &GDExample::set_speed, &GDExample::get_speed, 1.0);
     register_signal<GDExample>("position_changed", "node", GODOT_VARIANT_TYPE_OBJECT,
-                               "new_pos", GODOT_VARIANT_TYPE_VECTOR2);
+                               "new_pos", GODOT_VARIANT_TYPE_DICTIONARY);
 }
 
 GDExample::GDExample()
@@ -37,8 +37,9 @@ void GDExample::_process(float delta)
 
     set_position(new_position);
     time_emit += delta;
+    customVar["pos"] = new_position;
     if (time_emit > 0.1) {
-        emit_signal("position_changed", this, new_position);
+        emit_signal("position_changed", this, customVar);
 
         time_emit = 0.0;
     }

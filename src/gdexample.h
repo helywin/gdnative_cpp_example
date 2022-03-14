@@ -3,17 +3,21 @@
 
 #include <Godot.hpp>
 #include <Sprite.hpp>
+#include <Dictionary.hpp>
 
-namespace godot {
+namespace godot
+{
 
-class GDExample : public Sprite {
-    GODOT_CLASS(GDExample, Sprite)
+class GDExample : public Sprite
+{
+GODOT_CLASS(GDExample, Sprite)
 
 private:
     float time_passed;
     float time_emit;
     float amplitude;
     float speed;
+    Dictionary customVar;
 
 public:
     static void _register_methods();
